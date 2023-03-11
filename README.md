@@ -1,1 +1,6 @@
 # Blockchain
+## txInput
+
+## txOutput
+
+## transaction 
