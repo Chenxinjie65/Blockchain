@@ -1,0 +1,32 @@
+{
+  "name": "starchain",
+  "version": "1.0.0",
+  "description": "",
+  "main": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "node_1": "nodemon --watch dev -e js dev/networkNode.js 3001 http://localhost:3001",
+    "node_2": "nodemon --watch dev -e js dev/networkNode.js 3002 http://localhost:3002",
+    "node_3": "nodemon --watch dev -e js dev/networkNode.js 3003 http://localhost:3003",
+    "node_4": "nodemon --watch dev -e js dev/networkNode.js 3004 http://localhost:3004",
+    "node_5": "nodemon --watch dev -e js dev/networkNode.js 3005 http://localhost:3005"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.2.5",
+    "body-parser": "^1.20.1",
+    "bs58": "^5.0.0",
+    "bs58check": "^3.0.1",
+    "crypto": "^1.0.1",
+    "crypto-js": "^4.1.1",
+    "elliptic": "^6.5.4",
+    "express": "^4.18.2",
+    "multer": "^1.4.5-lts.1",
+    "nodemon": "^2.0.20",
+    "save": "^2.9.0",
+    "secp256k1": "^5.0.0",
+    "sha256": "^0.2.0",
+    "uuid": "^9.0.0"
+  }
+}
