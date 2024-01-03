@@ -60,12 +60,13 @@ app.post('/transaction/broadcast', function (req, res) {
 
 
 // 挖出一个新区块并向全网广播
-app.get('/mine', function (req, res) {
+app.post('/mine', function (req, res) {
     const lastBlock = bitcoin.getLastBlock();
     const previousBlockHash = lastBlock.hash;
     const transactionsAddToNextBlock = bitcoin.transactionsWillAddToNextBlock(bitcoin.pendingTransactions);
+    const minnerAddress = req.body.minnerAddress;
     const minnerReward = [{
-        amount: this.getBlockReward(this.chain.length + 1)/100000000,
+        amount: bitcoin.getBlockReward(bitcoin.chain.length + 1)/100000000,
         from: '00',
         to: minnerAddress,
         transactionId: uuidv1().split('-').join(''),
@@ -78,38 +79,30 @@ app.get('/mine', function (req, res) {
     const nonce = bitcoin.proofOfWork(previousBlockHash, blockData);
     const hash = bitcoin.blockHash(previousBlockHash, blockData, nonce);
 
-    const newBlock = bitcoin.createNewBlock(hash, previousBlockHash, nonce, minnerAddress);
-    //向全网广播区块
-    const requestPromises = [];
-    bitcoin.networkNodes.forEach(networkNodeUrl => {
-        const requestOptions = {
-            url: networkNodeUrl + '/recieve-new-block',
-            method: 'POST',
-            data: { newBlock: newBlock },
-        };
-
-        requestPromises.push(axios(requestOptions));
+    const newBlock = bitcoin.createNewBlock(hash, previousBlockHash, nonce);
+    res.json({
+        note: 'New block mined and broadcast successfully.',
+        block: minnerReward
     });
+    //向全网广播区块
+    // const requestPromises = [];
+    // bitcoin.networkNodes.forEach(networkNodeUrl => {
+    //     const requestOptions = {
+    //         url: networkNodeUrl + '/recieve-new-block',
+    //         method: 'POST',
+    //         data: { newBlock: newBlock },
+    //     };
 
-    Promise.all(requestPromises)
-        // .then(data => {
-        //     const requestOptions = {
-        //         url: bitcoin.currentNodeUrl + '/transaction/broadcast',
-        //         method: 'POST',
-        //         data: {
-        //             amount: 25,
-        //             from: "00",
-        //             to: nodeAddress
-        //         },
-        //     };
-        //     return axios(requestOptions);
-        // })
-        .then(data => {
-            return res.json({
-                note: 'New block mined and broadcast successfully.',
-                block: newBlock
-            });
-        });
+    //     requestPromises.push(axios(requestOptions));
+    // });
+
+    // Promise.all(requestPromises)
+    //     .then(data => {
+    //         return res.json({
+    //             note: 'New block mined and broadcast successfully.',
+    //             block: newBlock
+    //         });
+    //     });
 });
 
 

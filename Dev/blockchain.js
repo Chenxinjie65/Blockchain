@@ -77,10 +77,12 @@ Blockchain.prototype.digitalSignature = function (privateKeyHex, newTransaction)
     const regex = /^[1-9A-HJ-NP-Za-km-z]{88}$/;
     if (hexRegex.test(privateKeyHex) == false) {
         console.log('私钥格式不正确');
-    } else if (regex.test(newTransaction.from) == false || regex.test(newTransaction.to) == false) {
-        console.log('地址格式不正确');
-    } else {
-        const message = JSON.blockingify(newTransaction);
+    } else if (regex.test(newTransaction.from) == false ) {
+        console.log('from地址格式不正确'+`{newTransaction.from}`);
+    } else if ( regex.test(newTransaction.to) == false) {
+        console.log('to地址格式不正确'+`{newTransaction.to}`);
+    }else {
+        const message = JSON.stringify(newTransaction);
         const privateKeyBuffer = Buffer.from(privateKeyHex, 'hex');
         const privateKey = ec.keyFromPrivate(privateKeyBuffer);
         const messageHash = crypto.createHash('sha256').update(message).digest('hex');
@@ -90,13 +92,13 @@ Blockchain.prototype.digitalSignature = function (privateKeyHex, newTransaction)
 }
 
 //验证数字签名合法性
-Blockchain.prototype.digitalSignatureIblockue = function (newTransactionAndSignature) {
+Blockchain.prototype.digitalSignatureIsTrue = function (newTransactionAndSignature) {
     const address = newTransactionAndSignature.newTransaction.from;
-    const message = JSON.blockingify(newTransactionAndSignature.newTransaction);
+    const message = JSON.stringify(newTransactionAndSignature.newTransaction);
     const signature = newTransactionAndSignature.digitalSignature;
 
     const bytes = bs58.decode(address);
-    const publicKeyHex = Buffer.from(bytes).toblocking('hex');
+    const publicKeyHex = Buffer.from(bytes).toString('hex');
     const publicKeyBuffer = Buffer.from(publicKeyHex, 'hex');
     const publicKey = ec.keyFromPublic(publicKeyBuffer);
     const messageHash = crypto.createHash('sha256').update(message).digest('hex');
@@ -106,7 +108,7 @@ Blockchain.prototype.digitalSignatureIblockue = function (newTransactionAndSigna
 
 // 将交易加入待处理交易列表
 Blockchain.prototype.addToPendingTransactions = function (transactionObj) {
-    if (this.digitalSignatureIblockue(transactionObj) === true) {
+    if (this.digitalSignatureIsTrue(transactionObj) === true) {
         this.pendingTransactions.push(transactionObj.newTransaction);
         return this.chain.length + 1;
     } else {
@@ -117,7 +119,7 @@ Blockchain.prototype.addToPendingTransactions = function (transactionObj) {
 
 // 求区块的哈希值
 Blockchain.prototype.blockHash = function (previousBlockHash, blockData, nonce) {
-    const block = previousBlockHash.toblocking() + JSON.blockingify(blockData) + nonce
+    const block = previousBlockHash.toString() + JSON.stringify(blockData) + nonce
     const Hash = sha256(block);
     return Hash;
 }
