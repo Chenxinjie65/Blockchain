@@ -278,6 +278,11 @@ app.get('/address/:address', function(req, res) {
 	});
 });
 
+//区块链浏览器
+app.get('/blockchain-explorer', function(req, res) {
+	res.sendFile('./blockchain-explorer/explorer.html', { root: __dirname });
+});
+
 
 
 app.listen(port, function () {
