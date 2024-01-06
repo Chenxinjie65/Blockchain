@@ -29,7 +29,7 @@ Follow these steps to set up and run the project:
    git clone https://github.com/Chenxinjie65/Blockchain.git
 2. Navigate to the project directory:
    ```bash
-   cd blockchain-project
+   cd Blockchain
 3. Install dependencies:
    ```bash
    npm install
