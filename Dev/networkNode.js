@@ -85,24 +85,24 @@ app.post('/mine', function (req, res) {
         block: minnerReward
     });
     //向全网广播区块
-    // const requestPromises = [];
-    // bitcoin.networkNodes.forEach(networkNodeUrl => {
-    //     const requestOptions = {
-    //         url: networkNodeUrl + '/recieve-new-block',
-    //         method: 'POST',
-    //         data: { newBlock: newBlock },
-    //     };
+    const requestPromises = [];
+    bitcoin.networkNodes.forEach(networkNodeUrl => {
+        const requestOptions = {
+            url: networkNodeUrl + '/recieve-new-block',
+            method: 'POST',
+            data: { newBlock: newBlock },
+        };
 
-    //     requestPromises.push(axios(requestOptions));
-    // });
+        requestPromises.push(axios(requestOptions));
+    });
 
-    // Promise.all(requestPromises)
-    //     .then(data => {
-    //         return res.json({
-    //             note: 'New block mined and broadcast successfully.',
-    //             block: newBlock
-    //         });
-    //     });
+    Promise.all(requestPromises)
+        .then(data => {
+            return res.json({
+                note: 'New block mined and broadcast successfully.',
+                block: newBlock
+            });
+        });
 });
 
 
