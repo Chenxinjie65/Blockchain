@@ -9,18 +9,18 @@ const ec = new EC('secp256k1');
 function Blockchain() {
     this.chain = [];
     this.pendingTransactions = [];
-    this.createNewBlock('666', '0', '0');
+    this.createNewBlock('666', '0', '0',[]);
     this.currentNodeUrl = currentNodeUrl;
 
     this.networkNodes = [];
 }
 
 // 创建一个新区块
-Blockchain.prototype.createNewBlock = function (hash, previousBlockHash, nonce) {
+Blockchain.prototype.createNewBlock = function (hash, previousBlockHash, nonce, minnerReward) {
     const newBlock = {
         index: this.chain.length + 1,
         timestamp: Date.now(),
-        transactions: this.transactionsWillAddToNextBlock(this.pendingTransactions),
+        transactions: minnerReward.concat(this.transactionsWillAddToNextBlock(this.pendingTransactions)) ,
         hash: hash,
         previousBlockHash: previousBlockHash,
         nonce: nonce,
