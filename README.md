@@ -1,6 +1,6 @@
 # Blockchain Project
 
-This blockchain project is a simple blockchain explorer that allows users to search and view detailed information about blocks, transactions, and addresses.
+This blockchain project is a simple blockchain and the blockchain explorer that allows users to search and view detailed information about blocks, transactions, and addresses.
 
 ## Features
 
@@ -42,8 +42,8 @@ Follow these steps to set up and run the project:
 
 7. Click the "Search" button to view the corresponding block, transaction, or address information.
 
-##  Contributing
+## Contributing
 Contributions to this project are welcome! If you find any issues or have suggestions for improvements, please submit an Issue or Pull Request.
 
-##  License
+## License
 This project is licensed under the MIT License.
