@@ -1,6 +1,6 @@
 # Blockchain Project
 
-This blockchain project is a simple blockchain explorer that allows users to search and view detailed information about blocks, transactions, and addresses.
+This blockchain project is a simple blockchain and the blockchain explorer that allows users to search and view detailed information about blocks, transactions, and addresses.
 
 ## Features
 
